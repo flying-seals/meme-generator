@@ -1,0 +1,27 @@
+{
+  "name": "meme-service",
+  "version": "1.0.0",
+  "description": "Media 3.0 Webinar example service",
+  "main": "index.js",
+  "type": "module",
+  "scripts": {
+    "start": "nodemon index.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/flying-seals/meme-generator.git"
+  },
+  "author": "",
+  "license": "BSD-2-Clause",
+  "bugs": {
+    "url": "https://github.com/flying-seals/meme-generator/issues"
+  },
+  "homepage": "https://github.com/flying-seals/meme-generator#readme",
+  "dependencies": {
+    "express": "^4.17.1"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.3"
+  }
+}
