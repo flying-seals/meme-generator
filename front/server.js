@@ -1,11 +1,14 @@
 const http = require('http')
 const fs = require('fs')
+const Stream = require('stream').Transform;
 const express = require('express');
 const bodyParser = require('body-parser');
 const promise = require('promise');
 
 const port = 8080;
-const memeEndpoint = "/generate"
+const backendEndpoint = "/generate"
+const backendPort = 8080
+const backendAddress = 'localhost'
 
 // Configure express
 const app = express();
@@ -21,20 +24,16 @@ app.get('/', (req, res) => {
 });
 
 // Fake endpoint
-app.post(memeEndpoint, (req, res) => {
-    console.log("backend");
-    res.send("image");
+app.post(backendEndpoint, (req, res) => {
+    res.sendFile(__dirname + "/public/meme.jpg");
 })
 
 
 // Meme page
 app.post('/meme', (req, res) => {
-    console.log("in meme");
     var getMemePromise = getMeme(req.body.memeText);
     getMemePromise.then(function(result) {
-        image = result;
-        console.log(image.file);
-        res.render('meme', { memeImage: image });
+        res.render('meme');
     }, function(err) {
         console.log(err);
         res.send("Internal error");
@@ -55,11 +54,13 @@ var getMeme = function (text) {
         const data = JSON.stringify({
             text: text
           })
+
+          var image = new Stream();   
           
           const options = {
-            hostname: 'localhost',
-            port: 8080,
-            path: '/generate',
+            hostname: backendAddress,
+            port: backendPort,
+            path: backendEndpoint,
             method: 'POST',
             headers: {
               'Content-Type': 'application/json',
@@ -68,19 +69,24 @@ var getMeme = function (text) {
           }
           
           const req = http.request(options, (res) => {
-            console.log(`statusCode: ${res.statusCode}`);
           
             res.on('data', (d) => {
-                console.log(d);
-                resolve(d);
-                })
-            })
+                image.push(d);
+              });
+            
             
             req.on('error', (error) => {
                 console.error(error);
                 reject(error);
             })
-          
+
+            res.on('end', function() {   
+              fs.writeFileSync('public/meme-test.jpg', image.read());                                           
+              resolve("dupa")                              
+            }); 
+
+          });
+
           req.write(data)
           req.end()
 
