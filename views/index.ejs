@@ -1,0 +1,19 @@
+<!-- views/index.ejs -->
+
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Meme Generator</title>
+        <link rel="stylesheet" type="text/css" href="style.css">
+    </head>
+	<body>
+        <div class="main">
+            <h1>Meme generator</h1>
+            <form action="http://localhost:8080/meme" method="POST">
+
+                <input type="text" name="memeText" required placeholder="Input meme text here"><br>
+                <button type="submit">Generate!</button>
+            </form>
+        </div>
+	</body>
+</html>
