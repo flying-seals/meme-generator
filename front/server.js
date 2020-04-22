@@ -3,7 +3,7 @@ const fs = require('fs')
 const express = require('express');
 const bodyParser = require('body-parser');
 const promise = require('promise');
-const q = require('q');
+const axios = require('axios')
 
 const port = 8080;
 const memeEndpoint = "/generate"
@@ -23,15 +23,15 @@ app.get('/', (req, res) => {
 
 // Fake endpoint
 app.post(memeEndpoint, (req, res) => {
-    console.log(__dirname + "/public/meme.jpg");
-    res.sendFile(__dirname + "/public/meme.jpg");
+    console.log("backend");
+    res.send("image");
 })
 
 
 // Meme page
 app.post('/meme', (req, res) => {
-    
-    var getMemePromise = getMeme(req.body.memeText)
+    console.log("in meme");
+    var getMemePromise = getMeme(req.body.memeText);
     getMemePromise.then(function(result) {
         image = result;
         console.log(image.file);
@@ -51,55 +51,39 @@ app.listen(port, () => {
 
 // Send async meme request 
 var getMeme = function (text) {
-    const data = JSON.stringify({
-        text: text
-    });
-
-    const options = {
-        hostname: 'localhost',
-        port: 8080,
-        path: memeEndpoint,
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json',
-            'Content-Length': data.length
-        }
-    };
-
     return new Promise(function (resolve, reject) {
 
-        var imagedata = ''
-        var filepath = 'public/meme-tmp.jpg'
-
-        const req = http.request(options, res => {
-            res.setEncoding('binary')
-
-            // Handle incoming data
-            res.on('data', response => {
-                console.log("zbieram data");
-                imagedata += response;
-                
-            })
-
-            // Handle error
-            req.on('error', error => {
-                console.error(error);
-                reject("Internal error" + error);
-            })
-
-            // Handle end of request
-            res.on('end', function(){
-                console.log("TU JESTEM");
-                fs.writeFile('filepath', imagedata, 'binary', function(err) {
-                    if (err) throw err
-                    console.log('File saved.')
+        const data = JSON.stringify({
+            text: text
+          })
+          
+          const options = {
+            hostname: 'localhost',
+            port: 8080,
+            path: '/generate',
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+              'Content-Length': data.length
+            }
+          }
+          
+          const req = http.request(options, (res) => {
+            console.log(`statusCode: ${res.statusCode}`);
+          
+            res.on('data', (d) => {
+                console.log(d);
+                resolve(d);
                 })
-                console.log("A TERAZ TU");
-                resolve(filepath);
             })
-        
-            req.write(data);
-            req.end();
-        });
+            
+            req.on('error', (error) => {
+                console.error(error);
+                reject(error);
+            })
+          
+          req.write(data)
+          req.end()
+
     })
 }
