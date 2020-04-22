@@ -3,7 +3,6 @@ const fs = require('fs')
 const express = require('express');
 const bodyParser = require('body-parser');
 const promise = require('promise');
-const axios = require('axios')
 
 const port = 8080;
 const memeEndpoint = "/generate"
