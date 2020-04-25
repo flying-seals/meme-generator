@@ -24,70 +24,112 @@ app.get('/', (req, res) => {
 });
 
 // Fake endpoint
-app.post(backendEndpoint, (req, res) => {
-    res.sendFile(__dirname + "/public/meme.jpg");
+app.get('/memes/1', (req, res) => {
+    res.sendFile(__dirname + "/public/meme.jpg")
+})
+
+app.post('/memes', (req, res) => {
+    const data = JSON.stringify({
+      id: 1
+    })
+    res.send(data)
 })
 
 
 // Meme page
 app.post('/meme', (req, res) => {
-    var getMemePromise = getMeme(req.body.memeText);
-    getMemePromise.then(function(result) {
-        res.render('meme');
+    var getMemeIDPromise = getMemeID(req.body.memeText)
+    getMemeIDPromise.then(function(result) {
+      var getMemePromise = getMeme(result);
+      getMemePromise.then(function(result){
+        res.render('meme')
+      }, function(err) {
+        console.log(error)
+        res.send("Internal error")
+      })
     }, function(err) {
-        console.log(err);
-        res.send("Internal error");
+        console.log(err)
+        res.send("Internal error")
     })
 
 });
 
 // Run server
 app.listen(port, () => {
-  console.log(`Server running on port ${port}`);
+  console.log(`Server running on port ${port}`)
 });
 
 
+var getMemeID = function(text) {
+  return new Promise(function (resolve, reject) {
+    const data = JSON.stringify({
+      text: text
+    })
+
+    const options = {
+      hostname: backendAddress,
+      port: backendPort,
+      path: '/memes',
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Content-Length': data.length
+      }
+    }
+
+    const req = http.request(options, (res) => {
+
+      res.on('data', (d) => {
+          result = JSON.parse(d)
+          id = result.id
+          console.log(id)
+          resolve(id)
+        });
+      
+      
+      req.on('error', (error) => {
+          console.error(error)
+          reject(error)
+      })
+
+    })
+    req.write(data)
+    req.end()
+
+  })
+}
+
 // Send async meme request 
-var getMeme = function (text) {
+var getMeme = function (id) {
     return new Promise(function (resolve, reject) {
 
-        const data = JSON.stringify({
-            text: text
-          })
-
-          var image = new Stream();   
+          var image = new Stream() 
           
           const options = {
             hostname: backendAddress,
             port: backendPort,
-            path: backendEndpoint,
-            method: 'POST',
-            headers: {
-              'Content-Type': 'application/json',
-              'Content-Length': data.length
-            }
+            path: `/memes/${id}`,
+            method: 'GET',
           }
           
           const req = http.request(options, (res) => {
           
             res.on('data', (d) => {
-                image.push(d);
+                image.push(d)
               });
             
             
             req.on('error', (error) => {
-                console.error(error);
-                reject(error);
+                console.error(error)
+                reject(error)
             })
 
             res.on('end', function() {   
-              fs.writeFileSync('public/meme-test.jpg', image.read());                                           
-              resolve("dupa")                              
+              fs.writeFileSync('public/meme-test.jpg', image.read())                                           
+              resolve("Image fetched")                              
             }); 
 
           });
-
-          req.write(data)
           req.end()
 
     })
