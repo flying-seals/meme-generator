@@ -1,9 +1,8 @@
 import MemesController from "./controller.js";
-import generateMeme from "./utils/builder.js";
 
 async function createMeme(req, res) {
     try {
-      let memeId = await generateMeme(req.body.text);
+      let memeId = await MemesController.create(req.body.text);
       return res.status(201).json({
         id: memeId,
       });

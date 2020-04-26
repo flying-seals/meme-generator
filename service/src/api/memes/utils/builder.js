@@ -55,7 +55,7 @@ const getRandomTemplate = () => {
   }
 };
 
-async function buildMeme(caption) {
+async function generateMeme(caption) {
   let id = uuid.v4();
   try {
     let img = await loadImage(getRandomTemplate());
@@ -65,14 +65,6 @@ async function buildMeme(caption) {
 
     await saveImageToPath(processedImage, id, config.outputPath);
     return id;
-  } catch (error) {
-    throw error;
-  }
-}
-
-async function generateMeme(caption) {
-  try {
-    return await buildMeme(caption);
   } catch (error) {
     throw error;
   }
