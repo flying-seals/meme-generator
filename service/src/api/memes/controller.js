@@ -1,46 +1,51 @@
-import fs from 'fs'
-import path from 'path';
+import fs from "fs";
+import path from "path";
+import { rejects } from "assert";
 const __dirname = path.resolve();
 
+const listMemes = async (res) => {
+  let dir = path.join(__dirname, "memes");
 
-const listMemes = (res)=>{
+  return new Promise((resolve, reject) => {
+    fs.readdir(dir, (err, files) => {
+      if (err) reject(err);
 
-    let dir = path.join(__dirname,'memes');
-  
-    fs.readdir(dir, (err,files)=>{
-        if (err) throw err;
-        files = files.map(file => file.replace('.jpg',''));
-        res.send(files)
-    }); 
-}
-
-const getMemes = (req,res)=>{
-    let image =path.join(__dirname,'memes', req.params.id + '.jpg');
-
-    fs.readFile(image,(err, data)=>{
-        if (err) throw err;
-        res.writeHead(200, {'Content-Type': 'image/jpeg'});
-        res.end(data);
+      files = files.map((file) => file.replace(".jpg", ""));
+      resolve(files);
     });
-}
+  });
+};
 
-const deleteMemes = (req,res)=>{
-    let image =path.join(__dirname,'memes', req.params.id + '.jpg')
+const getMemes = async (req, res) => {
+  let image = path.join(__dirname, "memes", req.params.id + ".jpg");
 
-    fs.stat(image, (err,stats)=>{
-        if (err) throw err;
-        fs.unlink(image,(err)=>{
-            if (err) throw err;
-            res.end(req.params.id.toString());
-        });
+  return new Promise((resolve, reject) => {
+    fs.readFile(image, (err, data) => {
+      if (err) reject(err);
+
+      resolve(data);
     });
-}
+  });
+};
+
+const deleteMemes = async (req, res) => {
+  let image = path.join(__dirname, "memes", req.params.id + ".jpg");
+
+  return new Promise((resolve, reject) => {
+    fs.stat(image, (err, stats) => {
+      if (err) reject(err);
+      fs.unlink(image, (err) => {
+        if (err) reject(err);
+        resolve();
+      });
+    });
+  });
+};
 
 const MemesController = {
-    get: getMemes,
-    list: listMemes,
-    delete: deleteMemes
-}
-
+  get: getMemes,
+  list: listMemes,
+  delete: deleteMemes,
+};
 
 export default MemesController;
