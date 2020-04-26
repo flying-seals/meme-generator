@@ -1,3 +1,8 @@
+node_moules/
+memes/*
+templates/*
+*.DS_Store
+
 # Logs
 logs
 *.log
