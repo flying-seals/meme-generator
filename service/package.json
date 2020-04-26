@@ -6,6 +6,7 @@
   "type": "module",
   "scripts": {
     "start": "nodemon index.js",
+    "debug": "nodemon --trace-warnings index.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
@@ -19,7 +20,11 @@
   },
   "homepage": "https://github.com/flying-seals/meme-generator#readme",
   "dependencies": {
-    "express": "^4.17.1"
+    "body-parser": "^1.19.0",
+    "express": "^4.17.1",
+    "jimp": "^0.10.3",
+    "junk": "^3.1.0",
+    "uuid": "^7.0.3"
   },
   "devDependencies": {
     "nodemon": "^2.0.3"
