@@ -1,6 +1,4 @@
-import fs from 'fs'
-import path from 'path';
-const __dirname = path.resolve();
+import MemesController from './controller.js'
 
 const createMeme = (req, res) => {
     res.send("create meme")
@@ -8,39 +6,22 @@ const createMeme = (req, res) => {
 
 const getMeme = (req, res) => {
     
-    let image =path.join(__dirname,'memes', req.params.id + '.jpg')
-
-    fs.readFile(image,(err, data)=>{
-        if (err) throw err;
-        res.writeHead(200, {'Content-Type': 'image/jpeg'})
-        res.end(data);
-    });
-
-    
+   try{ 
+       MemesController.get(req,res);
+    }catch(error){
+        res.status(500);
+    }
 }
 
 const listMemes = (req, res) => {
 
-   let dir = path.join(__dirname,'memes')
-  
-    fs.readdir(dir, (err,files)=>{
-        if (err) throw err;
-       files = files.map(file => file.replace('.jpg',''))
-        res.send(files)
-    }) 
+    MemesController.list(res)
+
 }
 
 const deleteMeme = (req, res) => {
 
-    let image =path.join(__dirname,'memes', req.params.id + '.jpg')
-
-
-    fs.stat(image, (err,stats)=>{
-        if (err) throw err;
-        fs.unlink(image,(err)=>{
-            res.end(req.params.id);
-        })
-    })
+    MemesController.delete(req,res)
 
 }
 
