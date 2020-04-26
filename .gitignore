@@ -1,3 +1,7 @@
+node_modules
+*/memes/*
+*/templates/*
+*.DS_Store
 # Logs
 logs
 *.log
@@ -113,3 +117,4 @@ dist
 .yarn/unplugged
 .yarn/build-state.yml
 .pnp.*
+
