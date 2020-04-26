@@ -1,6 +1,5 @@
 import fs from "fs";
 import path from "path";
-import { rejects } from "assert";
 const __dirname = path.resolve();
 
 const listMemes = async (res) => {
