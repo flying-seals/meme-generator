@@ -14,7 +14,6 @@ const loadImage = async (filePath) => {
 };
 
 const loadFont = async (fontPath) => {
-  console.log(__dirname)
   try {
     return await Jimp.loadFont(fs.existsSync(fontPath) ? fontPath : Jimp.FONT_SANS_64_WHITE);
   } catch (error) {

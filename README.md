@@ -2,8 +2,11 @@
 
 ## Quick start guide
 
-```
-npm install
+### Meme Service
+```bash
+cd service
 
-npm run start
+docker build -t meme-generator .
+
+docker run -v $(pwd)/templates:/app/templates -v $(pwd)/memes:/app/memes -p 3000:3000 meme-generator:latest
 ```

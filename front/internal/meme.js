@@ -5,7 +5,7 @@ const promise = require('promise');
 
 
 // Backend configuration
-const backendPort = 8080
+const backendPort = 3000
 const backendAddress = 'localhost'
 
 
