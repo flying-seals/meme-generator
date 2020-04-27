@@ -1,6 +1,12 @@
 import fs from "fs";
 import path from "path";
+import generateMeme from "./utils/builder.js";
+
 const __dirname = path.resolve();
+
+const createMemes = async (text) => {
+  return generateMeme(text)
+}
 
 const listMemes = async (res) => {
   let dir = path.join(__dirname, "memes");
@@ -42,6 +48,7 @@ const deleteMemes = async (req, res) => {
 };
 
 const MemesController = {
+  create: createMemes,
   get: getMemes,
   list: listMemes,
   delete: deleteMemes,
