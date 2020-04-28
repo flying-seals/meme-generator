@@ -58,13 +58,13 @@ To run this app you need:
 2. To allow communication between containers, run:
 
     ``` bash
-    docker-compose up
+    docker network create webinar-network
     ```
 
 3. Run backend:
 
     ```bash
-    docker run -v $(pwd)/service/templates:/app/templates -v $(pwd)/service/memes:/app/memes -p 3000:3000 meme-generator:latest
+    docker run -v $(pwd)/service/templates:/app/templates -v $(pwd)/service/memes:/app/memes -p 3000:3000 --network webinar-network --name generator meme-generator:latest
     ```
 
     >**NOTE**: If you use Windows, replace the `$(pwd)` with an absolute path to the project.
@@ -72,12 +72,20 @@ To run this app you need:
 4. In a new terminal, run frontend:
 
     ```bash
-    docker run -p 8080:8080 meme-frontend:latest
+    docker run -p 8080:8080 -e BACKEND_ADDRESS=generator --network webinar-network --name frontend meme-frontend:latest
     ```
 
     >**NOTE**: You can run both frontend and backend in a detached mode by adding a `-d` flag. Don't forget to kill the processes later with `docker kill`!
 
 5. Open Meme Generator in your browser. Go to [http://localhost:8080/](http://localhost:8080/).
+
+### With Docker-compose
+
+1. Run both backend and frontend
+
+```bash
+docker-compose up
+```
 
 ## Available backend endpoints
 

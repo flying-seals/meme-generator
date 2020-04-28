@@ -6,7 +6,7 @@ const promise = require('promise');
 
 // Backend configuration
 const backendPort = 3000
-const backendAddress = process.env.BACKEND_ADDRESS||'localhost'
+const backendAddress = process.env.BACKEND_ADDRESS || 'localhost'
 
 
 exports.getMemeID = function(text) {
