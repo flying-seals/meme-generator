@@ -10,8 +10,6 @@ async function createMeme(req, res) {
       console.error(error);
       res.sendStatus(500);
     }
-  
-    res.send("create meme");
   }
 
 const getMeme = async (req, res) => {

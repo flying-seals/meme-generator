@@ -98,7 +98,7 @@ exports.getMeme = function (id) {
             // to allow frontend to display it.
             // Resolbe the Promise
             res.on('end', function() {   
-              fs.writeFileSync('public/meme-test.jpg', image.read())                                           
+              fs.writeFileSync('public/meme.jpg', image.read())                                           
               resolve("Image fetched")                              
             }); 
 
