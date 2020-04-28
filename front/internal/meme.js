@@ -6,7 +6,7 @@ const promise = require('promise');
 
 // Backend configuration
 const backendPort = 3000
-const backendAddress = 'localhost'
+const backendAddress = process.env.BACKEND_ADDRESS || 'localhost'
 
 
 exports.getMemeID = function(text) {
@@ -68,7 +68,6 @@ exports.getMeme = function (id) {
 
           // Variable to store image coming from the backend
           var image = new Stream() 
-          
 
           // HTTP request config
           const options = {

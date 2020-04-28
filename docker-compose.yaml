@@ -1,0 +1,25 @@
+version: '3'
+
+services:
+  generator:
+    build: ./service
+    ports:
+      - "3000:3000"
+    networks: 
+      - webinar
+    volumes: 
+      - ./service/templates:/app/templates
+      - ./service/memes:/app/memes
+
+  front:
+    build: ./front
+    environment: 
+      - BACKEND_ADDRESS=generator
+    ports: 
+      - "8080:8080"
+    networks: 
+      - webinar
+
+networks: 
+  webinar:
+    driver: "bridge"
