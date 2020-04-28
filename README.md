@@ -1,6 +1,6 @@
 # Meme generator
 
-Hello! This NodeJS app generates a random meme with the text you provide. What's more, you can run it as a Docker image. It was made as a port of the initiative [Akademia 3.0](http://akademia.media30.pl/#section-o-programie). Read the following instructions to run it locally.
+Hi! This NodeJS app generates a random meme with the text you provide. What's more, you can run it as a Docker container. It was made as a part of the initiative [Akademia 3.0](http://akademia.media30.pl/#section-o-programie). Read the following instructions to run it locally.
 
 ## Before you start
 
@@ -37,9 +37,11 @@ To run this app you need:
     node ./front/server.js
     ```
 
+4. Open Meme Generator in your browser. Go to [http://localhost:8080/](http://localhost:8080/).
+
 ### With Docker
 
-1. Build Meme Service (backend) Docker image:
+1. Build Docker images of the components:
 
     **Backend**
 
