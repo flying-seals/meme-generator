@@ -2,7 +2,6 @@ import Jimp from "jimp";
 import uuid from "uuid";
 import config from "../../config.js";
 import fs from "fs";
-import path from 'path';
 import junk from "junk";
 
 const loadImage = async (filePath) => {
