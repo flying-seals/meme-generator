@@ -26,7 +26,9 @@ To run this app you need:
 2. Run backend:
 
     ```bash
-    node ./service/index.js
+    cd service
+    node index.js
+    cd ..
     ```
 
     >**NOTE:** When you run NodeJS on a version lower than 13, add the `--experimental-modules` flag.
@@ -34,7 +36,9 @@ To run this app you need:
 3. Run frontend:
 
     ```bash
-    node ./front/server.js
+    cd front
+    node server.js
+    cd ..
     ```
 
 4. Open Meme Generator in your browser. Go to [http://localhost:8080/](http://localhost:8080/).
