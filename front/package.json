@@ -20,7 +20,7 @@
   "homepage": "https://github.com/flying-seals/meme-generator#readme",
   "dependencies": {
     "ejs": "^3.0.2",
-    "express": "^4.17.1",
+    "express": "^4.17.3",
     "promise": "^8.1.0"
   },
   "devDependencies": {
